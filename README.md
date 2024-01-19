@@ -6,4 +6,4 @@
 ## [COURSE 5: REGRESSION ANALYSIS: SIMPLIFY COMPLEX DATA RELATIONSHIPS](https://github.com/chongna95/Google-Advanced-Data-Analytics-/tree/main/Course%205%3A%20Regression%20Analysis)
 ## COURSE 6: THE NUTS AND BOLTS OF MACHINE LEARNING
 ## COURSE 7: GOOGLE ADVANCED DATA ANALYTICS CAPSTONE
-## TIKTOK PROJECT
+## [TIKTOK PROJECT](https://github.com/chongna95/Google-Advanced-Data-Analytics-/tree/main/TikTok%20Project)
