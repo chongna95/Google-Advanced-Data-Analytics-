@@ -1,0 +1,181 @@
+PACE(Logistic Reg)
+1.PLAN - Import packages/csv
+2.Analyze - EDA (Missing Value/Outliers/Resample)
+          - Correlation(Numeric Variable) [Logistic Regression Assumptions: No Multicollinearity among X]
+          - Boxplot / Histplot
+3.Construct - Train Test Split
+  (train)   - OneHotEncoder(Categorical Variable)
+            - Model Build   
+4.Execute - X_test/y_test Encoded (.transform only)
+  (test)  - Visualize Model-Confusion Matrix & Classification Report & Metrics   
+          - Interpret Model Coefficients
+
+
+
+# Import packages for data manipulation
+
+import pandas as pd
+
+import numpy as np
+
+# Import packages for data visualization
+
+import seaborn as sns
+
+import matplotlib.pyplot as plt
+
+# Import packages for data preprocessing
+
+from sklearn.preprocessing import OneHotEncoder
+
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+
+from sklearn.utils import resample
+
+# Import packages for data modeling
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.metrics import classification_report
+
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+
+#sns plot
+sns.boxplot(x=data['video_duration_sec'],ax=axes[0,0])
+
+sns.histplot(data=data_upsampled, stat="count", multiple="stack", x="text_length", 
+             kde=False, palette="pastel", hue="verified_status", element="bars", legend=True)
+sns.heatmap(
+data_upsampled.corr(numeric_only=True),annot=True,cmap="crest")
+
+
+#EDA 1.Info
+data.head()
+data.shape/size #row&col/total
+data.dtypes / .astype({'xxx':float})
+data.values
+data.columns.tolist()
+data.info()
+data.describe(include='all')
+data.value_counts(normalize=True,dropna=False)
+data.unique()
+
+
+#EDA 2.Missing Value
+data.isnull().sum()
+data=data.dropna(axis=0).reset_index(drop=True)
+
+data.duplicated().sum()
+
+
+#EDA 3.Check for and handle Outliers
+percentile25 = data["video_comment_count"].quantile(0.25)
+
+percentile75 = data["video_comment_count"].quantile(0.75)
+
+iqr = percentile75 - percentile25
+
+upper_limit = percentile75 + 1.5 * iqr
+
+
+data.loc[data["video_comment_count"] > upper_limit,"video_comment_count"] = upper_limit
+
+
+#SNS Boxplot
+fig,axes=plt.subplots(2,2,figsize=(10,4))
+
+sns.boxplot(x=data['video_duration_sec'],ax=axes[0,0])
+
+axes[0,0].set_title/set_xlabel/set_ylabel('')
+plt.title/xlabel/ylabel()
+plt.tight_layout()
+
+plt.show()
+
+
+#EDA 4.Resample
+data_majority = data[data["verified_status"] == "not verified"]
+
+data_minority = data[data["verified_status"] == "verified"]
+data_minority_upsampled = resample(data_minority,replace=True,n_samples=len(data_majority),random_state=0)
+data_upsampled = pd.concat([data_majority, data_minority_upsampled]).reset_index(drop=True)
+
+data_upsampled[["verified_status", "video_transcription_text"]]
+.groupby(by="verified_status")[["video_transcription_text"]]
+.agg(func=lambda array: np.mean([len(text) for text in array]))
+
+data_upsampled["text_length"] = data_upsampled["video_transcription_text"]
+.apply(func=lambda text: len(text))
+
+
+#SNS two Histograms in one plot
+
+#multiple{“layer”, “dodge”, “stack”, “fill”}
+
+#stat{“count”, “frequency”, “probability/proportion”, “percent”,“density”}
+#element{“bars”, “step”, “poly”}
+sns.histplot(data=data_upsampled, stat="count", multiple="stack", x="text_length", 
+             kde=False, palette="pastel", hue="verified_status", element="bars", legend=True)
+
+
+#EDA 5.Correlation(Numeric Variable) [Logistic Regression: No Multicollinearity among X]
+data_upsampled.corr(numeric_only=True)
+sns.heatmap(
+data_upsampled.corr(numeric_only=True),annot=True,cmap="crest")
+
+
+#Construct Model 1.Train Test Split
+X=[['']],y=['']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=0)
+
+
+#Construct Model 2.OneHotEncoder(Categorical Variable)
+X_train_encoded = OneHotEncoder(drop='first', sparse_output=False)
+                  .fit_transform(X_train) #array
+                  
+X_train_encoded_df = pd.DataFrame(data=X_train_encoded, columns=X_encoder.get_feature_names_out())
+X_train_final = pd.concat(
+                [X_train.drop(columns=["XX"]).reset_index(drop=True), 
+                 X_train_encoded_df], 
+                axis=1) #Dataframe
+
+y_train_final = OneHotEncoder(drop='first', sparse_output=False)
+                .fit_transform(y_train.values.reshape(-1, 1)) #2D array
+                .ravel()
+ #array[...]
+
+
+#Construct Model 3.Model Build
+log_clf = LogisticRegression(random_state=0, max_iter=800).fit(X_train_final, y_train_final)
+
+
+#Evaluate Model 1.X_test/y_test Encoded (.transform only)
+y_pred = log_clf.predict(X_test_final) #array
+log_clf.predict_proba(X_test_final) 
+X_test = Dataframe, y_test/y_pred = array
+
+
+#Evaluate Model 2.Visualize Model-Confusion Matrix & Classification Report
+log_cm = confusion_matrix(y_test_final, y_pred, labels=log_clf.classes_)
+log_disp = ConfusionMatrixDisplay(confusion_matrix=log_cm, display_labels=log_clf.classes_)
+log_disp.plot()
+target_labels = ["verified", "not verified"] #0/1
+classification_report(y_test_final, y_pred, target_names=target_labels)
+metrics.accuracy_score/precision_score/recall_score/f1_score(y_test,y_pred)
+
+Precision (PREDICTED) = TP/(TP+FP)
+Recall (Actual Positive) = TP/(TP+FN)
+Accuracy = (TP+TN) / ALL
+F1 Score = (2 x Precion x Recall) / (Precision + Recall)
+
+#Evaluate Model 3.Interpret Model Coefficients
+log_clf.coef_        #beta 1/slope
+log_clf.intercept_   #beta 0
+pd.DataFrame(data={"Feature Name":log_clf.feature_names_in_, "Model Coefficient":log_clf.coef_[0]})
+
+
+
+
