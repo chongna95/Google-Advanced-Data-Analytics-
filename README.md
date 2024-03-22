@@ -5,5 +5,5 @@
 ## [COURSE 4: THE POWER OF STATISTICS](https://github.com/chongna95/Google-Advanced-Data-Analytics-/tree/main/Course%204:%20The%20Power%20of%20Statistics)
 ## [COURSE 5: REGRESSION ANALYSIS: SIMPLIFY COMPLEX DATA RELATIONSHIPS](https://github.com/chongna95/Google-Advanced-Data-Analytics-/tree/main/Course%205%3A%20Regression%20Analysis)
 ## [COURSE 6: THE NUTS AND BOLTS OF MACHINE LEARNING](https://github.com/chongna95/Google-Advanced-Data-Analytics-/tree/main/Course%206%3A%20The%20Nuts%20and%20Bolts%20of%20Machine%20Learning)
-## COURSE 7: GOOGLE ADVANCED DATA ANALYTICS CAPSTONE
+## [COURSE 7: GOOGLE ADVANCED DATA ANALYTICS CAPSTONE](https://github.com/chongna95/Google-Advanced-Data-Analytics-/tree/main/Course%207:%20Google%20Advanced%20Data%20Analytic%20Capstone)
 ## [TIKTOK PROJECT](https://github.com/chongna95/Google-Advanced-Data-Analytics-/tree/main/TikTok%20Project)
